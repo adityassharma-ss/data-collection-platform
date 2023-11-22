@@ -1,0 +1,14 @@
+{
+    "db": {
+      "connectionString": "mongodb://localhost:27017/your-database-name"
+    },
+    "rabbitMQ": {
+      "connectionString": "amqp://localhost"
+    },
+    "twilio": {
+      "accountSid": "your-twilio-account-sid",
+      "authToken": "your-twilio-auth-token",
+      "phoneNumber": "your-twilio-phone-number"
+    }
+  }
+  
