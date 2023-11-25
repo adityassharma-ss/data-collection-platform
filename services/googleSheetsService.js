@@ -1,12 +1,26 @@
-// This is a placeholder for your Google Sheets integration logic
-// You would need to implement the actual integration using the Google Sheets API
-// Refer to Google Sheets API documentation for implementation details
+const { google } = require('googleapis');
+
 const GoogleSheetsService = {
-    updateSheet: async (data) => {
-      // Implement your Google Sheets integration logic here
+  updateSheet: async (data) => {
+    try {
+      const sheets = google.sheets({ version: 'v4', auth: 'YOUR_GOOGLE_SHEETS_API_KEY' });
+
+      // Example: Updating a sheet
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: 'YOUR_SPREADSHEET_ID',
+        range: 'Sheet1!A1',
+        valueInputOption: 'RAW',
+        resource: {
+          values: [[data]],
+        },
+      });
+      
       console.log('Updating Google Sheets:', data);
-    },
-  };
-  
-  module.exports = GoogleSheetsService;
-  
+    } catch (error) {
+      console.error('Error updating Google Sheets:', error);
+      throw error;
+    }
+  },
+};
+
+module.exports = GoogleSheetsService;
