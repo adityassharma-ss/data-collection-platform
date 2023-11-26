@@ -34,8 +34,7 @@ The Data Collection Platform is a robust system designed for collecting and mana
 
 1. Clone the repository:
    ```bash
-   https://github.com/adityassharma-ss/data-collection-platform.git
-   ```
+```
 
 2. Navigate to the project directory:
     ```bash
