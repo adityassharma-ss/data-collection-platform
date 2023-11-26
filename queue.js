@@ -1,4 +1,3 @@
-// queue.js
 const amqp = require('amqplib/callback_api');
 const config = require('config');
 
@@ -11,8 +10,6 @@ amqp.connect(config.get('rabbitMQ.connectionString'), (error, connection) => {
     if (err) throw err;
 
     channel.assertQueue(queueName, { durable: true });
-
-    // Publish and consume messages
   });
 });
 
