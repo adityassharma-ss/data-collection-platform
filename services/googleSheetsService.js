@@ -1,4 +1,5 @@
 const { google } = require('googleapis');
+const fs = require('fs/promises');
 require('dotenv').config(); // Load environment variables from .env
 
 const GoogleSheetsService = {
@@ -10,7 +11,7 @@ const GoogleSheetsService = {
 
       // Example: Updating a sheet
       await sheets.spreadsheets.values.append({
-        spreadsheetId: 'YOUR_SPREADSHEET_ID',
+        spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
         range: 'Sheet1', // Update the range according to your sheet
         valueInputOption: 'RAW',
         resource: {
@@ -28,16 +29,23 @@ const GoogleSheetsService = {
 
 // Function to authenticate with service account credentials
 async function authenticate() {
-  // Implement the authentication logic using your service account credentials
-  // Example:
-  // const credentials = require('path/to/your/credentials.json');
-  // const { client_secret, client_id, redirect_uris } = credentials.installed;
-  // const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+  try {
+    const credentials = JSON.parse(process.env.GOOGLE_SHEETS_CREDENTIALS);
+    const { client_email, private_key } = credentials;
 
-  // Load the credentials
-  // oAuth2Client.setCredentials(yourStoredCredentials);
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email,
+        private_key,
+      },
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
 
-  // return oAuth2Client;
+    return auth.getClient();
+  } catch (error) {
+    console.error('Error authenticating with Google Sheets:', error);
+    throw error;
+  }
 }
 
 // Function to map response data to a row in the sheet
