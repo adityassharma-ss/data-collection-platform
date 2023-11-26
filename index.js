@@ -13,15 +13,28 @@ const PORT = 3000;
 
 // Use the MongoDB connection string from the environment variable
 const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(express.json());
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('MongoDB connected successfully');
+    startServer();
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 
-// Routes
-app.post('/forms', formController.createForm);
-app.post('/responses', responseController.createResponse);
-app.post('/integrations/googleSheets', integrationController.googleSheetsIntegration);
+// Function to start the server if MongoDB connection is successful
+function startServer() {
+  app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  // Routes
+  app.post('/forms', formController.createForm);
+  app.post('/responses', responseController.createResponse);
+  app.post('/integrations/googleSheets', integrationController.googleSheetsIntegration);
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
