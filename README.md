@@ -66,4 +66,3 @@ GOOGLE_SHEETS_SPREADSHEET_ID=your-google-sheets-spreadsheet-id```
 2. Navigate to http://localhost:3000 in your browser.
 
 3. Ensure MongoDB is running and accessible.
-
